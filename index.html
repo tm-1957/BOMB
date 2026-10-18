@@ -101,7 +101,7 @@ body{direction:rtl}
 <p style="color:var(--mut)">جاوب قبل ما تتفجر</p>
 <div><button class="btn red" id="bStart">▶ Start Game</button></div>
 <div id="resumeW"></div>
-<div><button class="btn" id="bSet">⚙ Settings</button><button class="btn" id="bRules">📖 Rules</button><button class="btn" id="bMore">✨ المزيد</button></div>
+<div><button class="btn" id="bSet">⚙ Settings</button><button class="btn" id="bRules">📖 Rules</button><button class="btn" id="bMore">✨ More</button></div>
 </div></section>
 
 <section class="scr" id="rules"><div class="bar"><button class="btn sm back">→ رجوع</button><h2>طريقة اللعب</h2></div>
@@ -109,7 +109,7 @@ body{direction:rtl}
 <li>يختار المضيف الفئة ويضيف اللاعبين (لاعبان على الأقل).</li>
 <li>في كل دور يظهر اسم لاعب عشوائي مع سؤال، وتبدأ القنبلة بالعد.</li>
 <li>إجابة صحيحة قبل الانفجار = نقاط (مع مكافأة للسرعة) ثم ينتقل الدور للاعب آخر.</li>
-<li>إجابة خاطئة = إقصاء فوري، ويمكن للمضيف إرجاع اللاعب المقصى من زر «إرجاع لاعب».</li>
+<li>إجابة خاطئة: في قاعدة «الوصول لنقاط الفوز» لا نقاط وينتقل السؤال نفسه للاعب آخر ويُعاد وقت القنبلة من جديد، وفي قاعدة «آخر لاعب باقٍ» يُقصى اللاعب فورًا. ويمكن للمضيف إرجاع المقصى من زر «إرجاع لاعب».</li>
 <li>عند الانفجار يُقصى اللاعب ولا يُختار مجددًا، لكن نقاطه تبقى في لوحة TOP.</li>
 <li>تنتهي المباراة عند بلوغ نقاط الفوز، أو بقاء لاعب واحد، أو انتهاء عدد الجولات حسب الإعدادات.</li>
 <li>في الوضع الصوتي يضغط المضيف ✔ أو ✖ بعد سماع إجابة اللاعب.</li>
@@ -242,7 +242,7 @@ $('#bGo').onclick=()=>{if(players.length<2){$('#pErr').textContent='يلزم ل�
 function newGame(){clearTimeout(nt);G={pl:shuf(players).map(n=>({n,s:0,out:0})),last:-1,cur:-1,used:[],turns:0,elim:[],locked:false,cats:[...cats],qc:cats[0],over:false,q:null,opts:null,wrong:[],fuse:0,el:0};sv('bm_game',G);turn()}
 function nextQ(){const cs=G.cats||[G.cat||'gen'],all=[];cs.forEach(c=>{const p=pool(c),L=c==='custom'?'':(LV[c]||'');let b=p.map((_,i)=>i).filter(i=>st.lvl==='0'||(L[i]||'2')===st.lvl);if(b.length<3)b=p.map((_,i)=>i);b.forEach(i=>all.push([c,i]))});let av=all.filter(x=>!G.used.includes(x[0]+':'+x[1]));if(!av.length){G.used=[];av=all;toast('🔄 أُعيد خلط الأسئلة','')}const by={};av.forEach(x=>(by[x[0]]=by[x[0]]||[]).push(x));const x=pick(by[pick(Object.keys(by))]);G.used.push(x[0]+':'+x[1]);G.qc=x[0];return pool(x[0])[x[1]]}
 function endCheck(){const al=G.pl.filter(p=>!p.out);if(!al.length)return true;if(st.end==='last'&&al.length<=1)return true;if(st.end==='points'&&G.pl.some(p=>p.s>=st.target))return true;if(st.rounds>0&&G.turns>=st.rounds)return true;return false}
-function turn(resume){clearInterval(tm);if(!resume){if(endCheck())return finish();const al=G.pl.map((p,i)=>i).filter(i=>!G.pl[i].out);let c=al.filter(i=>i!==G.last);G.cur=pick(c.length?c:al);G.last=G.cur;G.turns++;const q=nextQ();G.q=q;G.opts=(st.mode==='choice'&&q.length>=4)?shuf(q.slice(1,5)):null;G.wrong=[];G.fuse=rnd(st.min,st.max);G.el=0;G.locked=false;sv('bm_game',G)}
+function turn(resume){clearInterval(tm);if(!resume){if(endCheck())return finish();const al=G.pl.map((p,i)=>i).filter(i=>!G.pl[i].out);let c=al.filter(i=>i!==G.last);G.cur=pick(c.length?c:al);G.last=G.cur;G.turns++;const q=nextQ();G.q=q;G.opts=(st.mode==='choice'&&q.length>=4)?shuf(q.slice(1,5)):null;G.wrong=[];G.tried=[];G.fuse=rnd(st.min,st.max);G.el=0;G.locked=false;sv('bm_game',G)}
 else G.el=0;
 $('#ts').textContent='';G.paused=false;$('#bPause').textContent='⏸ إيقاف القنبلة';draw();run()}
 function run(){clearInterval(tm);const t0=performance.now()-G.el*1000;let lastTick=-1;tm=setInterval(()=>{G.el=(performance.now()-t0)/1000;const rem=G.fuse-G.el,sec=Math.floor(G.el);if(sec!==lastTick){lastTick=sec;tone(520,.07,'square',.12)}tick(rem);if(rem<=0)explode()},80)}
@@ -255,7 +255,7 @@ function draw(){const p=G.pl[G.cur],q=G.q;$('#gInfo').textContent=`الدور ${
 function topBoard(){const s=G.pl.map((p,i)=>({...p,i})).sort((a,b)=>b.s-a.s||a.out-b.out);$('#topL').innerHTML=s.map((p,r)=>`<div class="tr ${r<3?'r'+(r+1):''} ${p.out?'out':''} ${!G.locked&&G.cur===p.i&&!p.out?'cur':''}"><span>${['🥇','🥈','🥉'][r]||r+1}</span><div class="n">${esc(p.n)}<small>${p.out?'مقصى':'مستمر'}</small></div><span class="p">${p.s}</span>${adj?`<button class="btn sm" data-a="${p.i}" data-s="-1" aria-label="إنقاص">−</button><button class="btn sm" data-a="${p.i}" data-s="1" aria-label="زيادة">+</button>`:''}</div>`).join('');$('#adjBar').hidden=!adj;$('#bAdj').textContent=adj?'✔ تم':'± تعديل النقاط';$$('[data-a]').forEach(b=>b.onclick=()=>{const i=+b.dataset.a,d=+b.dataset.s*Math.max(1,+$('#adjStep').value||1);G.pl[i].s=Math.max(0,G.pl[i].s+d);sv('bm_game',G);topBoard()})}
 $('#bAdj').onclick=()=>{if(!G||G.over)return;adj=!adj;topBoard()};
 function toast(t,c){const e=$('#ts');if(e){e.textContent=t;e.className='toast '+c}}
-function answer(ok,idx){if(G.locked||G.over||G.paused)return;if(!ok){explode('wrong');return}
+function answer(ok,idx){if(G.locked||G.over||G.paused)return;if(!ok){if(st.end==='last'){explode('wrong');return}tone(180,.3,'sawtooth');G.tried=G.tried||[];if(!G.tried.includes(G.cur))G.tried.push(G.cur);const al=G.pl.map((x,i)=>i).filter(i=>!G.pl[i].out);let c=al.filter(i=>!G.tried.includes(i));if(!c.length){G.tried=[G.cur];c=al.filter(i=>i!==G.cur)}if(c.length){G.cur=pick(c);G.last=G.cur;G.fuse=rnd(st.min,st.max);G.el=0}G.wrong=[];draw();toast(c.length?`❌ إجابة خاطئة! الدور على ${G.pl[G.cur].n}`:'❌ إجابة خاطئة','no');if(c.length)run();sv('bm_game',G);return}
 G.locked=true;clearInterval(tm);$('#bw').classList.remove('pulse');const fast=G.el<5&&st.bonus>0,gain=st.pts+(fast?st.bonus:0);G.pl[G.cur].s+=gain;tone(660,.15);setTimeout(()=>tone(990,.25),140);toast(`✅ +${gain} نقطة${fast?' (مكافأة سرعة ⚡)':''}`,'ok');if(G.opts){$$('[data-o]').forEach(b=>{if(G.opts[+b.dataset.o]===G.q[1])b.classList.add('good');b.disabled=true})}topBoard();sv('bm_game',G);nt=setTimeout(()=>turn(),1700)}
 function explode(why){if(G.locked)return;G.locked=true;clearInterval(tm);const p=G.pl[G.cur];p.out=G.elim.length+1;G.elim.push(G.cur);boomS();const fx=$('#fx');fx.classList.remove('boom');void fx.offsetWidth;if(st.fx!==false)fx.classList.add('boom');const bw=$('#bw');bw.classList.remove('pulse');bw.classList.add('shake');setTimeout(()=>bw.classList.remove('shake'),1000);toast(why==='wrong'?`❌ إجابة خاطئة! أُقصي ${p.n}`:`💥 انفجرت! أُقصي ${p.n}`,'no');$('#tl').textContent='💥';$$('[data-o],#vOk,#vNo').forEach(b=>b.disabled=true);topBoard();sv('bm_game',G);nt=setTimeout(()=>turn(),2600)}
 let qc=null;$('#bQuit').onclick=function(){if(!G||G.over)return;if(!qc){this.textContent='⚠ اضغط مرة أخرى للتأكيد';qc=setTimeout(()=>{qc=null;this.textContent='✖ إنهاء'},3000);return}clearTimeout(qc);qc=null;this.textContent='✖ إنهاء';finish()};
