@@ -304,9 +304,117 @@ LV.who=(LV.who||'').padEnd(C.who.q.length,'2');
 WHOX.forEach(x=>{C.who.q.push(x.slice(0,5));LV.who+=x[5]});
 })();
 
+/* ===== أسئلة إضافية: فيفا، تاريخ، ثقافة سعودية، ألعاب فيديو ===== */
+(function(){
+const add=(k,arr)=>{LV[k]=(LV[k]||'').padEnd(C[k].q.length,'2');arr.forEach(x=>{C[k].q.push(x.slice(0,5));LV[k]+=x[5]})};
+if(LV.vg&&LV.vg.length===24)LV.vg=LV.vg.slice(0,12)+'22222222'+LV.vg.slice(12);
+add('fifa',[
+['ما أول جزء حمل اسم EA Sports FC؟','EA FC 24','FIFA 23','EA FC 25','FIFA 24','1'],
+['من لاعب غلاف FIFA 19 العادي؟','كريستيانو رونالدو','ليونيل ميسي','نيمار','محمد صلاح','2'],
+['من لاعب غلاف FIFA 17 العادي؟','ماركو رويس','ليونيل ميسي','إيدن هازارد','كريستيانو رونالدو','3'],
+['من لاعب غلاف FIFA 21 العادي؟','كيليان مبابي','ليونيل ميسي','فيرجيل فان دايك','إيدن هازارد','2'],
+['من لاعب غلاف FIFA 22 العادي؟','كيليان مبابي','ليونيل ميسي','إرلينغ هالاند','كريستيانو رونالدو','2'],
+['من لاعب غلاف FIFA 23 العادي؟','كيليان مبابي','ليونيل ميسي','إرلينغ هالاند','فينيسيوس جونيور','2'],
+['ما تقييم كريستيانو رونالدو في FIFA 22؟','91','89','92','93','3'],
+['ما تقييم ليونيل ميسي في FIFA 21؟','93','91','94','95','3'],
+['ما تقييم كيليان مبابي في FIFA 21؟','90','88','92','86','3'],
+['ما تقييم ليونيل ميسي في FIFA 23؟','91','93','89','94','3'],
+['ما تقييم إيرلينغ هالاند في FIFA 23؟','88','91','85','90','3'],
+['ما اسم شركة تطوير سلسلة فيفا؟','EA Sports','Konami','Ubisoft','2K Sports','1'],
+['ما اسم وضع المهنة في فيفا؟','Career Mode','Ultimate Team','Volta','Pro Clubs','1'],
+['ما اسم العملة داخل وضع Ultimate Team؟','Coins','Gems','Credits','Gold Bars','1'],
+['ما لون بطاقات اللاعبين التي تبدأ من تقييم 75؟','ذهبية','فضية','برونزية','حمراء','1'],
+['ما اسم بطاقات أفضل اللاعبين أداءً في الأسبوع؟','Team of the Week','Icons','Heroes','Team of the Year','2'],
+['ما اسم بطاقات أفضل لاعبي الموسم كاملًا؟','Team of the Season','Team of the Week','Heroes','Standard','3'],
+['ما اسم وضع المنافسة الأسبوعية الأشهر في Ultimate Team؟','FUT Champions','Squad Battles','Volta','Pro Clubs','2'],
+['ما اسم وضع التصنيف ضد لاعبين حقيقيين في Ultimate Team؟','Division Rivals','Squad Battles','Draft','Seasons','2'],
+['كم عدد اللاعبين في التشكيلة الأساسية داخل Ultimate Team؟','11','7','9','15','1'],
+['ما أعلى تقييم يمكن أن يصل إليه لاعب في فيفا؟','99','100','95','97','2'],
+['في أي عام صدر أول جزء من سلسلة فيفا؟','1993','1995','1990','1998','3'],
+['ما اسم محرك الرسوميات الذي اعتمدته فيفا منذ FIFA 17؟','Frostbite','Unreal Engine','Unity','Source','3']
+]);
+add('his',[
+['في أي عام سقطت غرناطة آخر معاقل المسلمين في الأندلس؟','1492م','1453م','1517م','1258م','2'],
+['في أي عام فُتحت القسطنطينية؟','1453م','1492م','1517م','1299م','2'],
+['من الرحالة المشهور الذي وصل إلى القارة الأمريكية عام 1492م؟','كريستوفر كولومبوس','ماجلان','فاسكو دا غاما','ماركو بولو','1'],
+['من القائد القرطاجي الذي عبر جبال الألب بالفيلة؟','حنبعل','هانيبال بن ماجو','سكيبيو','يوليوس قيصر','2'],
+['من الصحابي الذي فتح مصر؟','عمرو بن العاص','خالد بن الوليد','سعد بن أبي وقاص','أبو عبيدة','1'],
+['من القائد المسلم في معركة اليرموك؟','خالد بن الوليد','سعد بن أبي وقاص','عمرو بن العاص','طارق بن زياد','2'],
+['من مؤسس الدولة العثمانية؟','عثمان الأول','محمد الفاتح','سليمان القانوني','مراد الأول','2'],
+['في أي عام أُلغيت الخلافة العثمانية؟','1924م','1918م','1922م','1908م','3'],
+['من الخليفة الذي أنشأ الدواوين في الدولة الإسلامية؟','عمر بن الخطاب','أبو بكر الصديق','عثمان بن عفان','علي بن أبي طالب','2'],
+['ما الحضارة التي بنت مدينة البتراء؟','الأنباط','الفراعنة','الرومان','الفينيقيون','2'],
+['ما الحضارة التي بنت ماتشو بيتشو؟','الإنكا','الأزتك','المايا','الفراعنة','2'],
+['في أي عام وقعت أحداث 11 سبتمبر؟','2001','1999','2003','2005','1'],
+['من مؤسس إمبراطورية المغول؟','جنكيز خان','هولاكو','تيمورلنك','قوبلاي خان','1'],
+['في أي عام بدأت الحرب العالمية الثانية؟','1939','1914','1941','1935','1'],
+['ما الحرب التي دارت بين أمريكا والاتحاد السوفيتي دون مواجهة مباشرة؟','الحرب الباردة','حرب الخليج','حرب الثلاثين عامًا','حرب القرم','2'],
+['من مؤسس الإمارة الأموية في الأندلس؟','عبدالرحمن الداخل','طارق بن زياد','موسى بن نصير','المنصور بن أبي عامر','3'],
+['من السلطان المملوكي الذي انتصر في عين جالوت؟','سيف الدين قطز','الظاهر بيبرس','صلاح الدين','قلاوون','2'],
+['في أي عام تأسست الأمم المتحدة؟','1945','1919','1950','1939','2'],
+['أي حضارة اخترعت الكتابة المسمارية؟','السومريون','المصريون','الفينيقيون','الإغريق','2'],
+['من أي بلاد كان الإسكندر الأكبر؟','مقدونيا','روما','فارس','مصر','2'],
+['من القيصر الروماني الذي اغتيل عام 44 ق.م؟','يوليوس قيصر','أغسطس','نيرون','تيبيريوس','2'],
+['ما اسم الفرعون الذي اكتُشفت مقبرته عام 1922م؟','توت عنخ آمون','رمسيس الثاني','خوفو','أخناتون','1'],
+['في أي قرن ميلادي ظهر الإسلام؟','السابع','الخامس','التاسع','الحادي عشر','2'],
+['من الخليفة الذي حكم بعد عمر بن الخطاب؟','عثمان بن عفان','علي بن أبي طالب','أبو بكر الصديق','معاوية','1']
+]);
+add('sa',[
+['من ملك السعودية بعد الملك عبدالعزيز؟','الملك سعود','الملك فيصل','الملك خالد','الملك فهد','2'],
+['متى يوم التأسيس السعودي؟','22 فبراير','23 سبتمبر','1 مارس','15 يناير','1'],
+['في أي عام تأسست الدولة السعودية الأولى؟','1727م','1932م','1818م','1902م','3'],
+['من مؤسس الدولة السعودية الأولى؟','الإمام محمد بن سعود','الملك عبدالعزيز','الإمام تركي بن عبدالله','الإمام فيصل بن تركي','2'],
+['ما عاصمة الدولة السعودية الأولى؟','الدرعية','الرياض','الأحساء','حائل','2'],
+['ما اسم أكبر مطار في الرياض؟','مطار الملك خالد الدولي','مطار الملك فهد','مطار الأمير سلطان','مطار الملك عبدالعزيز','1'],
+['ما اسم مطار جدة الدولي؟','مطار الملك عبدالعزيز الدولي','مطار الملك خالد','مطار الملك فهد','مطار الأمير محمد','2'],
+['ما اسم الجسر الذي يربط السعودية بالبحرين؟','جسر الملك فهد','جسر الملك سلمان','جسر الملك خالد','جسر الأمير سلطان','1'],
+['ما اسم المهرجان الوطني للتراث والثقافة السنوي في الرياض؟','الجنادرية','سوق عكاظ','موسم الرياض','ليالي رمضان','1'],
+['ما أشهر أكلة سعودية من الأرز واللحم أو الدجاج؟','الكبسة','المنسف','المندي','المجبوس','1'],
+['ما اسم الرقصة الشعبية السعودية الأشهر؟','العرضة السعودية','الدبكة','الخطوة','السامري','1'],
+['ما الزي التقليدي للرجال في السعودية؟','الثوب والشماغ','الدشداشة والعقال فقط','القفطان','الجلابية','1'],
+['ما اللقب الرسمي لملك السعودية؟','خادم الحرمين الشريفين','حامي الحرمين','أمير المؤمنين','سلطان الجزيرة','1'],
+['ما المدينة السعودية التي تُلقب بمدينة الورد؟','الطائف','أبها','الباحة','جازان','1'],
+['ما المدينة السعودية المعروفة ببوابة الحرمين الشريفين؟','جدة','الدمام','الرياض','تبوك','1'],
+['ما اسم أول موقع سعودي أُدرج في قائمة اليونسكو للتراث العالمي؟','الحِجر (مدائن صالح)','الدرعية','جدة التاريخية','الأحساء','3'],
+['ما اسم منطقة جدة القديمة المدرجة في اليونسكو؟','جدة التاريخية (البلد)','الطيبة','السلطانة','الكورنيش','2'],
+['في أي مدينة تقع جامعة الملك فهد للبترول والمعادن؟','الظهران','الرياض','جدة','أبها','2'],
+['ما اسم دوري كرة القدم السعودي للمحترفين؟','دوري روشن','دوري الأمير محمد','دوري جميل','دوري يلو','1'],
+['كم عدد الدول التي تشترك مع السعودية في حدود برية؟','7','4','5','9','3'],
+['ما عاصمة منطقة عسير؟','أبها','جازان','نجران','الباحة','1'],
+['من هو ولي العهد السعودي؟','الأمير محمد بن سلمان','الأمير خالد بن سلمان','الأمير فيصل بن فرحان','الأمير نايف بن أحمد','1']
+]);
+add('vg',[
+['من الشركة التي أنتجت سلسلة Super Mario؟','نينتندو','سيجا','سوني','مايكروسوفت','1'],
+['ما اسم الأميرة في ألعاب ماريو؟','بيتش','زيلدا','روزالينا','دايزي','1'],
+['ما اسم الخصم الرئيسي لماريو؟','بوزر','غانون','واريو','دونكي كونغ','1'],
+['ما اسم الديناصور الأخضر الذي يركبه ماريو؟','يوشي','سبايرو','ريبتار','دراغو','2'],
+['ماذا يجمع سونيك لحماية نفسه؟','الحلقات','العملات','النجوم','القلوب','1'],
+['ما اسم اللعبة التي تتساقط فيها القطع الهندسية؟','Tetris','Pac-Man','Pong','Snake','1'],
+['ما اسم الشخصية الصفراء التي تأكل النقاط وتهرب من الأشباح؟','Pac-Man','Sonic','Kirby','Q*bert','1'],
+['ما اسم لعبة محاكاة الحياة الشهيرة من EA؟','The Sims','Animal Crossing','Stardew Valley','Second Life','1'],
+['ما اسم الوحش الأخضر المتفجر في Minecraft؟','كريبر','زومبي','إندرمان','سكلتون','1'],
+['ما اسم بُعد الحمم الجهنمي في Minecraft؟','Nether','End','Overworld','Aether','2'],
+['ما اسم التنين النهائي في Minecraft؟','Ender Dragon','Wither','Warden','Elder Guardian','2'],
+['ما اسم جهاز نينتندو الهجين الذي يُلعب به محمولًا أو على التلفاز؟','Switch','Wii U','3DS','Game Boy','1'],
+['في أي عام صدرت PlayStation 5؟','2020','2018','2022','2019','2'],
+['في أي عام صدرت Xbox Series X؟','2020','2017','2022','2018','3'],
+['ما اللعبة التي فيها عالم Azeroth؟','World of Warcraft','Elder Scrolls','Final Fantasy','Diablo','2'],
+['من مطور سلسلة The Last of Us؟','Naughty Dog','Rockstar','Bethesda','Ubisoft','3'],
+['ما اسم بطل The Last of Us؟','جويل','ناثان دريك','كريتوس','ماركوس','2'],
+['من مطور لعبة League of Legends؟','Riot Games','Valve','Blizzard','Epic Games','2'],
+['ما اسم البطل الرئيسي في Assassin\u0027s Creed II؟','إيزيو أوديتوري','ألتاير','كونور','إيفور','3'],
+['من مطور سلسلة Call of Duty: Modern Warfare الأصلية؟','Infinity Ward','Treyarch','DICE','Respawn','3'],
+['ما اللعبة التي بدأت كتعديل لـ Warcraft III ثم صارت لعبة مستقلة؟','Dota 2','League of Legends','Smite','Heroes of Newerth','3'],
+['ما فئة لعبة Counter-Strike؟','إطلاق نار من منظور الشخص الأول','سباق','استراتيجية','رياضة','2'],
+['كم أقصى عدد للاعبين في لعبة Among Us الواحدة؟','15','10','8','20','3']
+]);
+})();
+
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
-const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const MEM={};
+const ld=(k,d)=>{try{return k in MEM?JSON.parse(MEM[k]):d}catch(e){return d}};
+const sv=(k,v)=>{try{MEM[k]=JSON.stringify(v)}catch(e){}};
+['bm_set','bm_pl','bm_cats','bm_cq','bm_game','bm_ord2'].forEach(k=>{try{localStorage.removeItem(k)}catch(e){}});
 const DEF={lvl:'0',time:20,rnd:false,min:8,max:30,pts:10,bonus:5,vol:70,fx:true,mode:'choice',end:'points',target:50,rounds:0,lives:1,wl:true};
 let st=Object.assign({},DEF,ld('bm_set',{})),players=ld('bm_pl',['لاعب 1','لاعب 2']),cats=ld('bm_cats',['gen']),customQ=ld('bm_cq',''),G=null,tm=null,nt=null,AC=null,hist=['home'];
 let order=ld('bm_ord2',['dig','gen','abd','his','geo','sci','fifa','vg','spo','car','who','flg','sa','ar','en','rel','mus','custom']),edit=false,adj=false;
@@ -315,7 +423,7 @@ const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.leng
 function show(id,back){if(id!=='cats')edit=false;$$('.scr').forEach(s=>s.classList.toggle('on',s.id===id));if(!back)hist.push(id);window.scrollTo(0,0)}
 let setPaused=false,pendNext=false;
 function aside(id){if(!G||G.over)return;setPaused=false;pendNext=false;if(G.locked){clearTimeout(nt);pendNext=true}else if(!G.paused){G.paused=true;setPaused=true;clearInterval(tm);$('#bPause').textContent='▶ استئناف'}show(id)}
-function goBack(){hist.pop();const t=hist[hist.length-1]||'home';show(t,true);if(t==='game'&&G&&!G.over){if(pendNext){pendNext=false;turn()}else if(setPaused){setPaused=false;G.paused=false;$('#bPause').textContent='⏸ إيقاف القنبلة';run()}}}
+function goBack(){hist.pop();const t=hist[hist.length-1]||'home';show(t,true);if(t==='game'&&G&&!G.over){if(pendNext){pendNext=false;turn()}else if(setPaused){setPaused=false;cdown('تُستأنف القنبلة بعد',3,()=>{G.paused=false;$('#bPause').textContent='⏸ إيقاف القنبلة';run()})}}}
 $$('.back').forEach(b=>b.onclick=goBack);
 /* sound */
 function tone(f,d,type='sine',v=.25){if(!st.fx)return;try{AC=AC||new AudioContext();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;g.gain.value=v*st.vol/100;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
@@ -324,7 +432,7 @@ function boomS(){if(!st.fx)return;try{AC=AC||new AudioContext();const n=AC.sampl
 $('#bStart').onclick=()=>{buildCats();show('cats')};
 $('#bRules').onclick=()=>show('rules');
 $('#bSet').onclick=()=>{buildSet();show('set')};
-function resumeUI(){const s=ld('bm_game',null);$('#resumeW').innerHTML=s&&!s.over?'<button class="btn gold" id="bRes">⏩ متابعة المباراة السابقة</button>':'';if($('#bRes'))$('#bRes').onclick=()=>{G=ld('bm_game',null);G.locked=false;if(!G.lv)G.lv=Math.max(1,+st.lives||1);syncLives();show('game');turn(true)}}
+function resumeUI(){const s=ld('bm_game',null);$('#resumeW').innerHTML=s&&!s.over?'<button class="btn gold" id="bRes">⏩ متابعة المباراة السابقة</button>':'';if($('#bRes'))$('#bRes').onclick=()=>{G=ld('bm_game',null);G.locked=false;if(!G.lv)G.lv=Math.max(1,+st.lives||1);syncLives();cdown('تُستأنف المباراة بعد',3,()=>{show('game');turn(true)})}}
 const SF=[['min','أقل وقت للانفجار (ثانية)','number',3,100],['max','أكثر وقت للانفجار (ثانية)','number',5,180],['vol','مستوى الصوت','number',0,100],['fx','المؤثرات الصوتية','bool'],['mode','طريقة الإجابة','sel',[['choice','اختيارات متعددة'],['voice','صوتية (المضيف يحكم)']]],['rounds','عدد الأدوار الأقصى (0 = بلا حد)','number',0,200]];
 function buildSet(){$('#setBody').innerHTML=SF.map(f=>{const k=f[0],v=st[k];let i;if(f[2]==='bool')i=`<select data-k="${k}"><option value="1" ${v?'selected':''}>مفعّل</option><option value="0" ${v?'':'selected'}>معطّل</option></select>`;else if(f[2]==='sel')i=`<select data-k="${k}">${f[3].map(o=>`<option value="${o[0]}" ${v===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select>`;else i=`<input type="number" data-k="${k}" min="${f[3]}" max="${f[4]}" value="${v}">`;return`<div class="row"><label>${f[1]}</label>${i}</div>`}).join('');$$('#setBody [data-k]').forEach(el=>el.onchange=()=>{const k=el.dataset.k,f=SF.find(x=>x[0]===k);let v=el.value;if(f[2]==='bool')v=v==='1';else if(f[2]==='number'){v=Math.min(f[4],Math.max(f[3],+v||f[3]));el.value=v}st[k]=v;if(k==='lives')syncLives();if(k==='target'||k==='end')st[k]=k==='target'?+st[k]:st[k];if(st.min>=st.max){st.max=st.min+5;buildSet()}sv('bm_set',st)})}
 function syncLives(){if(!G||G.over)return;const n=Math.max(1,+st.lives||1),o=G.lv||n,d=n-o;G.pl.forEach(p=>{if(!p.out)p.l=Math.max(1,(p.l==null?o:p.l)+d)});G.lv=n;sv('bm_game',G)}
@@ -347,7 +455,8 @@ $('#qBonus').onchange=e=>{st.bonus=Math.min(50,Math.max(0,Math.round(+e.target.v
 $('#qLives').onchange=e=>{st.lives=Math.min(10,Math.max(1,Math.round(+e.target.value)||1));e.target.value=st.lives;sv('bm_set',st)};
 $('#qLvl').onchange=e=>{st.lvl=e.target.value;sv('bm_set',st)};$('#qTarget').onchange=e=>{st.target=Math.min(1000,Math.max(10,+e.target.value||50));e.target.value=st.target;sv('bm_set',st)};
 let cdT=null;
-$('#bGo').onclick=()=>{if(cdT)return;if(players.length<2){$('#pErr').textContent='يلزم لاعبان على الأقل';return}$('#pErr').textContent='';let n=5;const o=$('#cd'),b=$('#cdn');b.textContent=n;o.classList.add('on');tone(440,.12,'square',.15);cdT=setInterval(()=>{n--;if(n>0){b.textContent=n;tone(440,.12,'square',.15)}else{clearInterval(cdT);cdT=null;o.classList.remove('on');tone(880,.3,'square',.2);newGame();show('game')}},1000)};
+function cdown(label,n,done){if(cdT)return;const o=$('#cd'),b=$('#cdn');$('#cd small').textContent=label;b.textContent=n;o.classList.add('on');tone(440,.12,'square',.15);cdT=setInterval(()=>{n--;if(n>0){b.textContent=n;tone(440,.12,'square',.15)}else{clearInterval(cdT);cdT=null;o.classList.remove('on');tone(880,.3,'square',.2);done()}},1000)}
+$('#bGo').onclick=()=>{if(cdT)return;if(players.length<2){$('#pErr').textContent='يلزم لاعبان على الأقل';return}$('#pErr').textContent='';cdown('تبدأ المباراة بعد',5,()=>{newGame();show('game')})};
 /* game */
 function newGame(){clearTimeout(nt);const L0=Math.max(1,+st.lives||1);G={lv:L0,pl:shuf(players).map(n=>({n,s:0,out:0,l:L0})),last:-1,cur:-1,used:[],turns:0,elim:[],locked:false,cats:[...cats],qc:cats[0],over:false,q:null,opts:null,wrong:[],fuse:0,el:0};sv('bm_game',G);turn()}
 function nextQ(){const cs=G.cats||[G.cat||'gen'],all=[];cs.forEach(c=>{const p=pool(c),L=c==='custom'?'':(LV[c]||'');let b=p.map((_,i)=>i).filter(i=>st.lvl==='0'||(L[i]||'2')===st.lvl);if(b.length<3)b=p.map((_,i)=>i);b.forEach(i=>all.push([c,i]))});let av=all.filter(x=>!G.used.includes(x[0]+':'+x[1]));if(!av.length){G.used=[];av=all;toast('🔄 أُعيد خلط الأسئلة','')}const by={};av.forEach(x=>(by[x[0]]=by[x[0]]||[]).push(x));const x=pick(by[pick(Object.keys(by))]);G.used.push(x[0]+':'+x[1]);G.qc=x[0];return pool(x[0])[x[1]]}
@@ -357,7 +466,7 @@ function turn(resume){clearInterval(tm);if(!resume){if(endCheck())return finish(
 else G.el=0;
 $('#ts').textContent='';G.paused=false;$('#bPause').textContent='⏸ إيقاف القنبلة';draw();run()}
 function run(){clearInterval(tm);const t0=performance.now()-G.el*1000;let lastTick=-1;tm=setInterval(()=>{G.el=(performance.now()-t0)/1000;const rem=G.fuse-G.el,sec=Math.floor(G.el);if(sec!==lastTick){lastTick=sec;tone(520,.07,'square',.12)}tick(rem);if(rem<=0)explode()},80)}
-$('#bPause').onclick=()=>{if(!G||G.over||G.locked)return;G.paused=!G.paused;if(G.paused){clearInterval(tm);$('#bPause').textContent='▶ استئناف';toast('⏸ القنبلة متوقفة','')}else{$('#bPause').textContent='⏸ إيقاف القنبلة';toast('','');run()}};
+$('#bPause').onclick=()=>{if(!G||G.over||G.locked||cdT)return;if(!G.paused){G.paused=true;clearInterval(tm);$('#bPause').textContent='▶ استئناف';toast('⏸ القنبلة متوقفة','')}else{toast('','');cdown('تُستأنف القنبلة بعد',3,()=>{G.paused=false;$('#bPause').textContent='⏸ إيقاف القنبلة';run()})}};
 $('#bGSet').onclick=()=>{if(!G||G.over)return;buildSet();aside('set')};
 function buildRev(){const l=G.elim;$('#revL').innerHTML=l.length?l.map(i=>`<div class="pl"><b>${esc(G.pl[i].n)}</b><small style="color:var(--mut)">${G.pl[i].s} نقطة</small><button class="btn gold sm" data-r="${i}">↩ إرجاع</button></div>`).join(''):'<p style="color:var(--mut)">لا يوجد لاعب مقصى</p>';$$('[data-r]').forEach(b=>b.onclick=()=>{const i=+b.dataset.r;G.elim=G.elim.filter(x=>x!==i);G.pl[i].out=0;G.pl[i].l=G.lv||Math.max(1,+st.lives||1);G.elim.forEach((x,k)=>G.pl[x].out=k+1);sv('bm_game',G);buildRev();topBoard()})}
 $('#bGRev').onclick=()=>{if(!G||G.over)return;buildRev();aside('rev')};
