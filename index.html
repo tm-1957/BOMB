@@ -76,6 +76,11 @@ input,textarea,select{font:inherit;color:var(--tx);background:var(--card2);borde
 #fx{position:fixed;inset:0;pointer-events:none;z-index:50;display:flex;align-items:center;justify-content:center;font-size:30vw;opacity:0}
 #fx.boom{animation:bm 1.2s}
 @keyframes bm{0%{opacity:1;background:#e5252acc;transform:scale(.3)}60%{opacity:1;background:#e5252a66;transform:scale(1.1)}100%{opacity:0;transform:scale(1.3)}}
+#cd{position:fixed;inset:0;z-index:60;background:rgba(10,10,12,.94);display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+#cd.on{display:flex}
+#cd small{color:var(--mut);font-size:1.4rem}
+#cd b{font-size:clamp(8rem,40vw,16rem);line-height:1;color:var(--red);text-shadow:0 0 50px #e5252a99;font-weight:900;animation:cdp 1s infinite}
+@keyframes cdp{0%{transform:scale(1.3);opacity:.3}30%{opacity:1}100%{transform:scale(.9)}}
 #cf{position:fixed;inset:0;pointer-events:none;z-index:40}
 .win{text-align:center}
 .win .crown{font-size:5rem}
@@ -93,7 +98,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 </style>
 </head>
 <body>
-<div id="fx">💥</div><canvas id="cf"></canvas>
+<div id="fx">💥</div><canvas id="cf"></canvas><div id="cd"><small>تبدأ المباراة بعد</small><b id="cdn">5</b></div>
 
 <section class="scr on" id="home">
 <div class="home">
@@ -341,7 +346,8 @@ $('#qPts').onchange=e=>{st.pts=Math.min(100,Math.max(1,Math.round(+e.target.valu
 $('#qBonus').onchange=e=>{st.bonus=Math.min(50,Math.max(0,Math.round(+e.target.value)||0));e.target.value=st.bonus;sv('bm_set',st)};
 $('#qLives').onchange=e=>{st.lives=Math.min(10,Math.max(1,Math.round(+e.target.value)||1));e.target.value=st.lives;sv('bm_set',st)};
 $('#qLvl').onchange=e=>{st.lvl=e.target.value;sv('bm_set',st)};$('#qTarget').onchange=e=>{st.target=Math.min(1000,Math.max(10,+e.target.value||50));e.target.value=st.target;sv('bm_set',st)};
-$('#bGo').onclick=()=>{if(players.length<2){$('#pErr').textContent='يلزم لاعبان على الأقل';return}newGame();show('game')};
+let cdT=null;
+$('#bGo').onclick=()=>{if(cdT)return;if(players.length<2){$('#pErr').textContent='يلزم لاعبان على الأقل';return}$('#pErr').textContent='';let n=5;const o=$('#cd'),b=$('#cdn');b.textContent=n;o.classList.add('on');tone(440,.12,'square',.15);cdT=setInterval(()=>{n--;if(n>0){b.textContent=n;tone(440,.12,'square',.15)}else{clearInterval(cdT);cdT=null;o.classList.remove('on');tone(880,.3,'square',.2);newGame();show('game')}},1000)};
 /* game */
 function newGame(){clearTimeout(nt);const L0=Math.max(1,+st.lives||1);G={lv:L0,pl:shuf(players).map(n=>({n,s:0,out:0,l:L0})),last:-1,cur:-1,used:[],turns:0,elim:[],locked:false,cats:[...cats],qc:cats[0],over:false,q:null,opts:null,wrong:[],fuse:0,el:0};sv('bm_game',G);turn()}
 function nextQ(){const cs=G.cats||[G.cat||'gen'],all=[];cs.forEach(c=>{const p=pool(c),L=c==='custom'?'':(LV[c]||'');let b=p.map((_,i)=>i).filter(i=>st.lvl==='0'||(L[i]||'2')===st.lvl);if(b.length<3)b=p.map((_,i)=>i);b.forEach(i=>all.push([c,i]))});let av=all.filter(x=>!G.used.includes(x[0]+':'+x[1]));if(!av.length){G.used=[];av=all;toast('🔄 أُعيد خلط الأسئلة','')}const by={};av.forEach(x=>(by[x[0]]=by[x[0]]||[]).push(x));const x=pick(by[pick(Object.keys(by))]);G.used.push(x[0]+':'+x[1]);G.qc=x[0];return pool(x[0])[x[1]]}
