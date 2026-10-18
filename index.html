@@ -111,7 +111,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 <li>يختار المضيف الفئة ويضيف اللاعبين (لاعبان على الأقل).</li>
 <li>في كل دور يظهر اسم لاعب عشوائي مع سؤال، وتبدأ القنبلة بالعد.</li>
 <li>إجابة صحيحة قبل الانفجار = نقاط (مع مكافأة للسرعة) ثم ينتقل الدور للاعب آخر.</li>
-<li>إجابة خاطئة: في قاعدة «الوصول لنقاط الفوز» لا يُقصى اللاعب ولا يخسر محاولة، وينتقل السؤال نفسه للاعب آخر. أما في قاعدة «آخر لاعب باقٍ» فالإجابة الخاطئة تفجّر القنبلة عليه. ويمكن للمضيف إرجاع المقصى من زر «إرجاع لاعب».</li>
+<li>إجابة خاطئة: في قاعدة «الوصول لنقاط الفوز» ينتقل السؤال لاعبًا آخر بلا عقوبة ما دام لم يُقصَ أحد. وبمجرد إقصاء أول لاعب بانفجار القنبلة، تصبح أي إجابة خاطئة بعدها تفجّر القنبلة على صاحبها. أما في قاعدة «آخر لاعب باقٍ» فالإجابة الخاطئة تفجّر القنبلة دائمًا. ويمكن للمضيف إرجاع المقصى من زر «إرجاع لاعب».</li>
 <li>عند الانفجار يخسر اللاعب محاولة، وإذا انتهت محاولاته (الافتراضي محاولة واحدة ويمكن تغييرها من الإعدادات) يُقصى ولا يُختار مجددًا، لكن نقاطه تبقى في لوحة TOP.</li>
 <li>تنتهي المباراة عند بلوغ نقاط الفوز، أو بقاء لاعب واحد، أو انتهاء عدد الجولات حسب الإعدادات.</li>
 <li>في الوضع الصوتي يضغط المضيف ✔ أو ✖ بعد سماع إجابة اللاعب.</li>
@@ -136,7 +136,7 @@ input,textarea{-webkit-user-select:text;user-select:text}
 <section class="scr" id="plr"><div class="bar"><button class="btn sm back">→ رجوع</button><h2>اللاعبون</h2><button class="btn red" id="bGo">🔥 ابدأ المباراة</button></div>
 <div class="card"><div class="row"><input id="pin" placeholder="اسم اللاعب" maxlength="20"><button class="btn gold sm" id="pAdd">إضافة</button></div>
 <div class="err" id="pErr"></div><div id="pList"></div>
-<div class="row"><label>نقاط الفوز</label><input type="number" id="qTarget" min="10"></div><div class="row"><label>مستوى الأسئلة</label><select id="qLvl"><option value="0">الكل</option><option value="1">سهل</option><option value="2">متوسط</option><option value="3">صعب</option></select></div><div class="row"><label>عدد المحاولات</label><input type="number" id="qLives" min="1" max="10"></div></div></section>
+<div class="row"><label>قاعدة النهاية</label><select id="qEnd"><option value="points">الوصول لنقاط الفوز</option><option value="last">آخر لاعب باقٍ</option></select></div><div class="row" id="rTarget"><label>نقاط الفوز</label><input type="number" id="qTarget" min="10" max="1000"></div><div class="row"><label>نقاط الإجابة الصحيحة</label><input type="number" id="qPts" min="1" max="100"></div><div class="row"><label>مكافأة الإجابة السريعة (أقل من 5 ثوانٍ)</label><input type="number" id="qBonus" min="0" max="50"></div><div class="row"><label>مستوى الأسئلة</label><select id="qLvl"><option value="0">الكل</option><option value="1">سهل</option><option value="2">متوسط</option><option value="3">صعب</option></select></div><div class="row"><label>عدد محاولات كل لاعب</label><input type="number" id="qLives" min="1" max="10"></div></div></div></section>
 
 <section class="scr" id="game">
 <div class="bar"><button class="btn sm" id="bQuit">✖ إنهاء</button><button class="btn sm" id="bPause">⏸ إيقاف القنبلة</button><button class="btn sm" id="bGSet">⚙ الإعدادات</button><button class="btn sm" id="bGRev">↩ إرجاع لاعب</button><button class="btn sm" id="bAdj">± تعديل النقاط</button><span style="color:var(--mut)" id="gInfo"></span></div>
@@ -201,6 +201,104 @@ C.geo.q.push(...[["ما أكبر قارة مساحة؟", "آسيا", "أفريق
 C.sa.q.push(...[["ما اسم البرج المطل على الحرم المكي؟", "برج الساعة", "برج المملكة", "برج الفيصلية", "برج خليفة"],["ما اسم برج الرياض الذي يتوسطه ثقب علوي كبير؟", "برج المملكة", "برج الفيصلية", "برج الساعة", "برج خليفة"],["ما اسم القلعة التاريخية وسط الرياض؟", "قصر المصمك", "قصر الحمراء", "قلعة حلب", "قلعة بصرى"],["أي مدينة سعودية تُلقب بعروس البحر الأحمر؟", "جدة", "الدمام", "أبها", "الرياض"],["أي واحة سعودية مشهورة بالنخيل في المنطقة الشرقية؟", "الأحساء", "تبوك", "أبها", "نجران"],["ما أول جامعة سعودية تأسست؟", "جامعة الملك سعود", "جامعة الملك عبدالعزيز", "جامعة أم القرى", "جامعة الإمام"],["ما اسم شركة النفط الوطنية السعودية؟", "أرامكو", "سابك", "stc", "معادن"],["أي دولة ستستضيف كأس العالم 2034؟", "السعودية", "قطر", "مصر", "الإمارات"],["كم عدد المناطق الإدارية في المملكة؟", "13", "10", "14", "12"]]);LV.sa+='222123113';
 C.sci.q.push(...[["ما أقرب نجم إلى الأرض؟", "الشمس", "الشعرى", "قنطورس", "النجم القطبي"],["كم عدد أسنان الإنسان البالغ؟", "32", "28", "30", "36"],["ما الغاز الذي نُخرجه عند الزفير؟", "ثاني أكسيد الكربون", "الأكسجين", "النيتروجين", "الهيدروجين"],["ما أكبر عضو في جسم الإنسان؟", "الجلد", "الكبد", "الرئة", "القلب"],["ما درجة غليان الماء بالسيلسيوس؟", "100", "90", "80", "120"],["ما العنصر الذي رمزه Fe؟", "الحديد", "الفضة", "الفلور", "الفوسفور"],["ما المعدن السائل في درجة حرارة الغرفة؟", "الزئبق", "الرصاص", "الألمنيوم", "النحاس"],["ما الكوكب الملقب بالكوكب الأحمر؟", "المريخ", "الزهرة", "عطارد", "المشتري"],["ما وحدة قياس الجهد الكهربائي؟", "فولت", "أمبير", "أوم", "واط"],["من صاحب نظرية النسبية؟", "أينشتاين", "نيوتن", "غاليليو", "هوكينغ"],["كم عدد كواكب المجموعة الشمسية؟", "8", "9", "7", "10"],["ما أخف عنصر في الجدول الدوري؟", "الهيدروجين", "الهيليوم", "الليثيوم", "الأكسجين"]]);LV.sci+='121212212112';
 C.who.q.push(...[["الجنسية: برازيلي|المركز: جناح أيسر|الدوري: الدوري الإسباني|الفريق: ريال مدريد", "فينيسيوس جونيور", "رودريغو", "نيمار", "رافينيا"], ["الجنسية: سويدي|المركز: مهاجم|الدوري: الدوري الإنجليزي الممتاز|الفريق: ليفربول", "ألكسندر إيزاك", "فيكتور غيوكيريس", "دومينيك سوبوسلاي", "داروين نونيز"], ["الجنسية: ألماني|المركز: لاعب وسط مهاجم|الدوري: الدوري الإنجليزي الممتاز|الفريق: ليفربول", "فلوريان فيرتز", "جمال موسيالا", "كاي هافرتز", "إلكاي غوندوغان"], ["الجنسية: ألماني|المركز: لاعب وسط مهاجم|الدوري: الدوري الألماني|الفريق: بايرن ميونخ", "جمال موسيالا", "فلوريان فيرتز", "توماس مولر", "ليروي ساني"], ["الجنسية: إسباني|المركز: لاعب وسط|الدوري: الدوري الإسباني|الفريق: برشلونة", "بيدري", "غافي", "فيرمين لوبيز", "داني أولمو"], ["الجنسية: برازيلي|المركز: مهاجم / صانع ألعاب|الدوري: الدوري البرازيلي|الفريق: سانتوس", "نيمار", "فينيسيوس جونيور", "رافينيا", "أنطوني"]]);LV.who+='233223';
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+/* ===== إضافات: أسئلة دينية، كل الأعلام، لاعبون ===== */
+(function(){
+const RELX=[
+['كم عدد ركعات صلاة الفجر؟','2','3','4','1','1'],
+['كم عدد ركعات صلاة العشاء؟','4','2','3','5','1'],
+['كم عدد الصلوات المفروضة في اليوم والليلة؟','5','3','4','6','1'],
+['كم عدد أجزاء القرآن الكريم؟','30','20','40','60','1'],
+['في أي سورة آية الكرسي؟','البقرة','آل عمران','النساء','الكهف','1'],
+['ما أقصر سورة في القرآن الكريم؟','الكوثر','الإخلاص','العصر','النصر','2'],
+['ما السورة التي تُسمى عروس القرآن؟','الرحمن','يس','الملك','الواقعة','2'],
+['ما السورة التي تعدل ثلث القرآن؟','الإخلاص','الفاتحة','الكافرون','الناس','2'],
+['ما اسم والدة النبي عيسى عليه السلام؟','مريم','آسية','خديجة','فاطمة','1'],
+['من النبي الذي كان نار قومه عليه بردًا وسلامًا؟','إبراهيم عليه السلام','موسى عليه السلام','نوح عليه السلام','يونس عليه السلام','1'],
+['من النبي الذي كلّمه الله تكليمًا؟','موسى عليه السلام','عيسى عليه السلام','إبراهيم عليه السلام','يوسف عليه السلام','1'],
+['من النبي الذي صنع السفينة بأمر الله؟','نوح عليه السلام','هود عليه السلام','صالح عليه السلام','لوط عليه السلام','1'],
+['من النبي الذي ألان الله له الحديد؟','داود عليه السلام','سليمان عليه السلام','يوسف عليه السلام','موسى عليه السلام','2'],
+['من النبي الذي سخّر الله له الريح والجن؟','سليمان عليه السلام','داود عليه السلام','عيسى عليه السلام','إدريس عليه السلام','2'],
+['ما الكتاب المنزل على عيسى عليه السلام؟','الإنجيل','التوراة','الزبور','الصحف','1'],
+['ما الكتاب المنزل على داود عليه السلام؟','الزبور','الإنجيل','التوراة','الفرقان','2'],
+['كم عدد الأنبياء المذكورين بالاسم في القرآن؟','25','30','20','40','3'],
+['من النبي الذي بنى الكعبة مع ابنه إسماعيل؟','إبراهيم عليه السلام','نوح عليه السلام','موسى عليه السلام','عيسى عليه السلام','1'],
+['من الصحابي الملقب بالفاروق؟','عمر بن الخطاب','أبو بكر الصديق','علي بن أبي طالب','عثمان بن عفان','1'],
+['من الصحابي الملقب بذي النورين؟','عثمان بن عفان','علي بن أبي طالب','عمر بن الخطاب','طلحة بن عبيدالله','2'],
+['من أول مؤذن في الإسلام؟','بلال بن رباح','عمار بن ياسر','سلمان الفارسي','أبو هريرة','1'],
+['من الصحابي الملقب بأمين هذه الأمة؟','أبو عبيدة بن الجراح','سعد بن أبي وقاص','خالد بن الوليد','الزبير بن العوام','2'],
+['من الصحابي الملقب بحبر الأمة؟','عبدالله بن عباس','عبدالله بن مسعود','أبو هريرة','أنس بن مالك','3'],
+['من أكثر الصحابة روايةً للحديث؟','أبو هريرة','عائشة','عبدالله بن عمر','أنس بن مالك','2'],
+['من زوجة النبي ﷺ الأولى؟','خديجة بنت خويلد','عائشة بنت أبي بكر','حفصة بنت عمر','سودة بنت زمعة','1'],
+['من أول من آمن بالنبي ﷺ من النساء؟','خديجة بنت خويلد','عائشة','فاطمة','حفصة','2'],
+['في أي عام هجري توفي النبي ﷺ؟','11 هـ','10 هـ','12 هـ','9 هـ','3'],
+['في أي غار نزل الوحي أول مرة على النبي ﷺ؟','غار حراء','غار ثور','غار أحد','غار الطائف','1'],
+['ما المعركة التي سُميت يوم الفرقان؟','بدر','أحد','حنين','الخندق','2'],
+['في أي غزوة حُفر الخندق حول المدينة؟','الخندق','أحد','خيبر','تبوك','1'],
+['من الصحابي الذي جمع القرآن في مصحف واحد في عهد أبي بكر؟','زيد بن ثابت','أُبي بن كعب','عبدالله بن مسعود','معاذ بن جبل','3'],
+['ما اسم الجبل الذي يقف عنده الحجاج يوم عرفة؟','جبل الرحمة','جبل أحد','جبل ثور','جبل النور','2'],
+['كم عدد أيام التشريق؟','3','2','4','5','3'],
+['في أي شهر يقع الحج؟','ذو الحجة','محرم','رجب','رمضان','1'],
+['ما الصلاة التي لا يُجهر فيها بالقراءة؟','الظهر','الفجر','المغرب','العشاء','1'],
+['أي ركن من الأركان التالية لا يجب إلا على المستطيع؟','الحج','الصلاة','الصوم','الشهادتان','2'],
+['ما اسم زوجة فرعون المؤمنة؟','آسية بنت مزاحم','مريم','هاجر','سارة','2'],
+['ما الليلة التي نزل فيها القرآن؟','ليلة القدر','ليلة الإسراء والمعراج','ليلة عرفة','ليلة الجمعة','2'],
+['ما سنام القرآن كما جاء في الأثر؟','سورة البقرة','سورة آل عمران','سورة يس','سورة الكهف','3']
+];
+LV.rel=(LV.rel||'').padEnd(C.rel.q.length,'2');
+RELX.forEach(x=>{C.rel.q.push(x.slice(0,5));LV.rel+=x[5]});
+
+const FL=`AF أفغانستان|AL ألبانيا|DZ الجزائر|AD أندورا|AO أنغولا|AG أنتيغوا وبربودا|AR الأرجنتين|AM أرمينيا|AU أستراليا|AT النمسا|AZ أذربيجان|BS جزر الباهاما|BH البحرين|BD بنغلاديش|BB بربادوس|BY بيلاروسيا|BE بلجيكا|BZ بليز|BJ بنين|BT بوتان|BO بوليفيا|BA البوسنة والهرسك|BW بوتسوانا|BR البرازيل|BN بروناي|BG بلغاريا|BF بوركينا فاسو|BI بوروندي|CV الرأس الأخضر|KH كمبوديا|CM الكاميرون|CA كندا|CF أفريقيا الوسطى|TD تشاد|CL تشيلي|CN الصين|CO كولومبيا|KM جزر القمر|CG الكونغو برازافيل|CD الكونغو الديمقراطية|CR كوستاريكا|CI ساحل العاج|HR كرواتيا|CU كوبا|CY قبرص|CZ التشيك|DK الدنمارك|DJ جيبوتي|DM دومينيكا|DO جمهورية الدومينيكان|EC الإكوادور|EG مصر|SV السلفادور|GQ غينيا الاستوائية|ER إريتريا|EE إستونيا|SZ إسواتيني|ET إثيوبيا|FJ فيجي|FI فنلندا|FR فرنسا|GA الغابون|GM غامبيا|GE جورجيا|DE ألمانيا|GH غانا|GR اليونان|GD غرينادا|GT غواتيمالا|GN غينيا|GW غينيا بيساو|GY غيانا|HT هايتي|HN هندوراس|HU المجر|IS آيسلندا|IN الهند|ID إندونيسيا|IR إيران|IQ العراق|IE أيرلندا|IT إيطاليا|JM جامايكا|JP اليابان|JO الأردن|KZ كازاخستان|KE كينيا|KI كيريباتي|KW الكويت|KG قيرغيزستان|LA لاوس|LV لاتفيا|LB لبنان|LS ليسوتو|LR ليبيريا|LY ليبيا|LI ليختنشتاين|LT ليتوانيا|LU لوكسمبورغ|MG مدغشقر|MW مالاوي|MY ماليزيا|MV المالديف|ML مالي|MT مالطا|MH جزر مارشال|MR موريتانيا|MU موريشيوس|MX المكسيك|FM ميكرونيزيا|MD مولدوفا|MC موناكو|MN منغوليا|ME الجبل الأسود|MA المغرب|MZ موزمبيق|MM ميانمار|NA ناميبيا|NR ناورو|NP نيبال|NL هولندا|NZ نيوزيلندا|NI نيكاراغوا|NE النيجر|NG نيجيريا|KP كوريا الشمالية|MK مقدونيا الشمالية|NO النرويج|OM عُمان|PK باكستان|PW بالاو|PS فلسطين|PA بنما|PG بابوا غينيا الجديدة|PY باراغواي|PE بيرو|PH الفلبين|PL بولندا|PT البرتغال|QA قطر|RO رومانيا|RU روسيا|RW رواندا|KN سانت كيتس ونيفيس|LC سانت لوسيا|VC سانت فنسنت والغرينادين|WS ساموا|SM سان مارينو|ST ساو تومي وبرينسيبي|SA السعودية|SN السنغال|RS صربيا|SC سيشل|SL سيراليون|SG سنغافورة|SK سلوفاكيا|SI سلوفينيا|SB جزر سليمان|SO الصومال|ZA جنوب أفريقيا|KR كوريا الجنوبية|SS جنوب السودان|ES إسبانيا|LK سريلانكا|SD السودان|SR سورينام|SE السويد|CH سويسرا|SY سوريا|TW تايوان|TJ طاجيكستان|TZ تنزانيا|TH تايلاند|TL تيمور الشرقية|TG توغو|TO تونغا|TT ترينيداد وتوباغو|TN تونس|TR تركيا|TM تركمانستان|TV توفالو|UG أوغندا|UA أوكرانيا|AE الإمارات|GB بريطانيا|US أمريكا|UY الأوروغواي|UZ أوزبكستان|VU فانواتو|VA الفاتيكان|VE فنزويلا|VN فيتنام|YE اليمن|ZM زامبيا|ZW زيمبابوي`.split('|').map(x=>{const i=x.indexOf(' ');return[x.slice(0,i),x.slice(i+1)]});
+const L1=new Set('SA US GB FR DE IT ES JP CN BR EG TR AE KW QA CA AU RU IN MA IQ JO LB SY KR AR PT NL MX PS OM BH YE SD LY TN DZ'.split(' '));
+const L2=new Set('PK ID IR SE NO CH BE GR PL UA CU CL CO PE NG ZA KE ET TH VN MY SG PH NZ FI DK AT IE CZ HU RO SO MR DJ KZ AF BD KP IS HR RS'.split(' '));
+const em=c=>String.fromCodePoint(...[...c].map(ch=>127397+ch.charCodeAt(0)));
+const have=new Set(C.flg.q.map(q=>q[0]));
+LV.flg=(LV.flg||'').padEnd(C.flg.q.length,'2');
+const names=FL.map(f=>f[1]);
+FL.forEach(([c,n])=>{const e=em(c);if(have.has(e))return;have.add(e);
+const bad=shuf(names.filter(x=>x!==n)).slice(0,3);
+C.flg.q.push([e,n,...bad]);LV.flg+=L1.has(c)?'1':L2.has(c)?'2':'3'});
+
+const WHOX=[
+['الجنسية: برازيلي|المركز: جناح أيمن|الدوري: الدوري الإسباني|الفريق: برشلونة','رافينيا','فينيسيوس جونيور','رودريغو','أنتوني','2'],
+['الجنسية: إنجليزي|المركز: لاعب وسط مهاجم|الدوري: الدوري الإنجليزي الممتاز|الفريق: تشيلسي','كول بالمر','جود بيلينغهام','فيل فودن','جاك غريليش','2'],
+['الجنسية: إنجليزي|المركز: لاعب وسط|الدوري: الدوري الإنجليزي الممتاز|الفريق: أرسنال','ديكلان رايس','كوبي ماينو','إدواردو كامافينغا','جود بيلينغهام','2'],
+['الجنسية: برتغالي|المركز: لاعب وسط مهاجم|الدوري: الدوري الإنجليزي الممتاز|الفريق: مانشستر يونايتد','برونو فرنانديز','برناردو سيلفا','برونو غيمارايس','جواو فيليكس','2'],
+['الجنسية: برتغالي|المركز: لاعب وسط|الدوري: الدوري الإنجليزي الممتاز|الفريق: مانشستر سيتي','برناردو سيلفا','برونو فرنانديز','روبن نيفيش','فيتينيا','3'],
+['الجنسية: برتغالي|المركز: مدافع|الدوري: الدوري الإنجليزي الممتاز|الفريق: مانشستر سيتي','روبن دياز','بيبي','أنطونيو سيلفا','جواو كانسيلو','3'],
+['الجنسية: برازيلي|المركز: حارس مرمى|الدوري: الدوري الإنجليزي الممتاز|الفريق: ليفربول','أليسون بيكر','إيدرسون','أندريه أونانا','داروين نونيز','2'],
+['الجنسية: مجري|المركز: لاعب وسط|الدوري: الدوري الإنجليزي الممتاز|الفريق: ليفربول','دومينيك سوبوسلاي','كيرتس جونز','أليكسيس ماك أليستر','رايان غرافنبيرخ','3'],
+['الجنسية: نرويجي|المركز: لاعب وسط مهاجم|الدوري: الدوري الإنجليزي الممتاز|الفريق: أرسنال','مارتن أوديغارد','إيرلينغ هالاند','ألكسندر إيزاك','كاي هافرتز','3'],
+['الجنسية: سويدي|المركز: مهاجم|الدوري: الدوري الإنجليزي الممتاز|الفريق: أرسنال','فيكتور غيوكيريس','ألكسندر إيزاك','دومينيك سوبوسلاي','داروين نونيز','3'],
+['الجنسية: فرنسي|المركز: قلب دفاع|الدوري: الدوري الإنجليزي الممتاز|الفريق: أرسنال','ويليام ساليبا','رافائيل فاران','دايوت أوباميكانو','لوكاس هيرنانديز','3'],
+['الجنسية: إكوادوري|المركز: لاعب ارتكاز|الدوري: الدوري الإنجليزي الممتاز|الفريق: تشيلسي','مويسيس كايسيدو','إنزو فرنانديز','رودري','ديكلان رايس','3'],
+['الجنسية: أرجنتيني|المركز: لاعب وسط|الدوري: الدوري الإنجليزي الممتاز|الفريق: تشيلسي','إنزو فرنانديز','أليكسيس ماك أليستر','رودريغو دي بول','لياندرو باريديس','3'],
+['الجنسية: إنجليزي|المركز: ظهير أيمن|الدوري: الدوري الإسباني|الفريق: ريال مدريد','ترينت ألكسندر أرنولد','كايل ووكر','جود بيلينغهام','ريس جيمس','2'],
+['الجنسية: أوروغواياني|المركز: لاعب وسط|الدوري: الدوري الإسباني|الفريق: ريال مدريد','فيديريكو فالفيردي','رودريغو بينتانكور','فينيسيوس جونيور','لوكا مودريتش','2'],
+['الجنسية: سلوفيني|المركز: حارس مرمى|الدوري: الدوري الإسباني|الفريق: أتلتيكو مدريد','يان أوبلاك','تيبو كورتوا','مارك أندريه تير شتيغن','أليكس ريميرو','3'],
+['الجنسية: مغربي|المركز: ظهير أيمن|الدوري: الدوري الفرنسي|الفريق: باريس سان جيرمان','أشرف حكيمي','ياسين بونو','نصير مزراوي','نايف أكرد','2'],
+['الجنسية: برتغالي|المركز: لاعب وسط|الدوري: الدوري الفرنسي|الفريق: باريس سان جيرمان','فيتينيا','برونو فرنانديز','برناردو سيلفا','رافائيل لياو','3'],
+['الجنسية: فرنسي|المركز: جناح أيمن|الدوري: الدوري الألماني|الفريق: بايرن ميونخ','مايكل أوليس','عثمان ديمبيلي','كينغسلي كومان','كيليان مبابي','3'],
+['الجنسية: كولومبي|المركز: جناح أيسر|الدوري: الدوري الألماني|الفريق: بايرن ميونخ','لويس دياز','جيمس رودريغيز','دافينسون سانشيز','خوان كوادرادو','3'],
+['الجنسية: ألماني|المركز: حارس مرمى|الدوري: الدوري الألماني|الفريق: بايرن ميونخ','مانويل نوير','مارك أندريه تير شتيغن','كيفن تراب','أوليفر كان','2'],
+['الجنسية: ألماني|المركز: لاعب وسط|الدوري: الدوري الألماني|الفريق: بايرن ميونخ','جوشوا كيميتش','توني كروس','ليون غوريتسكا','إلكاي غوندوغان','3'],
+['الجنسية: نيجيري|المركز: مهاجم|الدوري: الدوري التركي|الفريق: غلطة سراي','فيكتور أوسيمين','ماورو إيكاردي','دوغلاس كوستا','باتشواي','3'],
+['الجنسية: إنجليزي|المركز: مهاجم|الدوري: الدوري الإسباني|الفريق: برشلونة','ماركوس راشفورد','هاري كين','جادون سانشو','أنتوني مارسيال','3'],
+['الجنسية: كاميروني|المركز: جناح / مهاجم|الدوري: الدوري الإنجليزي الممتاز|الفريق: مانشستر يونايتد','براين مبومو','ماسون ماونت','ماتيوس كونيا','رودري','3'],
+['الجنسية: برتغالي|المركز: جناح أيسر|الدوري: الدوري الإيطالي|الفريق: ميلان','رافائيل لياو','جواو فيليكس','بيدرو نيتو','برناردو سيلفا','3'],
+['الجنسية: إيطالي|المركز: لاعب وسط|الدوري: الدوري الإيطالي|الفريق: إنتر ميلان','نيكولو باريلا','ساندرو تونالي','جورجينيو','ماركو فيراتي','3'],
+['الجنسية: تركي|المركز: لاعب وسط|الدوري: الدوري الإيطالي|الفريق: إنتر ميلان','هاكان تشالهان أوغلو','أردا غولر','فيديريكو كييزا','ميريح ديميرال','3'],
+['الجنسية: سنغالي|المركز: جناح|الدوري: دوري روشن السعودي|الفريق: النصر','ساديو ماني','ريان مصطفى','ساديو ديالو','ماتيوس بيريرا','2'],
+['الجنسية: برتغالي|المركز: مهاجم / جناح|الدوري: دوري روشن السعودي|الفريق: النصر','جواو فيليكس','برونو فرنانديز','ديوغو جوتا','برناردو سيلفا','3'],
+['الجنسية: إنجليزي|المركز: مهاجم|الدوري: دوري روشن السعودي|الفريق: الأهلي','إيفان توني','هاري كين','دومينيك كالفرت لوين','ماركوس راشفورد','3'],
+['الجنسية: سنغالي|المركز: حارس مرمى|الدوري: دوري روشن السعودي|الفريق: الأهلي','إدوارد ميندي','ياسين بونو','أليسون بيكر','إدرسون','3'],
+['الجنسية: كوري جنوبي|المركز: مهاجم|الدوري: الدوري الألماني|الفريق: ماينز','لي جاي سونغ','كيم مين جاي','هوانغ هي تشان','سون هيونغ مين','3'],
+['الجنسية: سويسري|المركز: لاعب وسط|الدوري: الدوري الإنجليزي الممتاز|الفريق: سندرلاند','غرانيت تشاكا','مانويل أكانجي','يان سومر','ريمو فرولر','3']
+];
+LV.who=(LV.who||'').padEnd(C.who.q.length,'2');
+WHOX.forEach(x=>{C.who.q.push(x.slice(0,5));LV.who+=x[5]});
+})();
+
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
 const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
@@ -209,7 +307,6 @@ let st=Object.assign({},DEF,ld('bm_set',{})),players=ld('bm_pl',['لاعب 1','�
 let order=ld('bm_ord2',['dig','gen','abd','his','geo','sci','fifa','vg','spo','car','who','flg','sa','ar','en','rel','mus','custom']),edit=false,adj=false;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
-const shuf=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
 function show(id,back){if(id!=='cats')edit=false;$$('.scr').forEach(s=>s.classList.toggle('on',s.id===id));if(!back)hist.push(id);window.scrollTo(0,0)}
 let setPaused=false,pendNext=false;
 function aside(id){if(!G||G.over)return;setPaused=false;pendNext=false;if(G.locked){clearTimeout(nt);pendNext=true}else if(!G.paused){G.paused=true;setPaused=true;clearInterval(tm);$('#bPause').textContent='▶ استئناف'}show(id)}
@@ -223,7 +320,7 @@ $('#bStart').onclick=()=>{buildCats();show('cats')};
 $('#bRules').onclick=()=>show('rules');
 $('#bSet').onclick=()=>{buildSet();show('set')};
 function resumeUI(){const s=ld('bm_game',null);$('#resumeW').innerHTML=s&&!s.over?'<button class="btn gold" id="bRes">⏩ متابعة المباراة السابقة</button>':'';if($('#bRes'))$('#bRes').onclick=()=>{G=ld('bm_game',null);G.locked=false;if(!G.lv)G.lv=Math.max(1,+st.lives||1);syncLives();show('game');turn(true)}}
-const SF=[['min','أقل وقت للانفجار (ثانية)','number',3,100],['max','أكثر وقت للانفجار (ثانية)','number',5,180],['lvl','مستوى الأسئلة','sel',[['0','الكل'],['1','سهل'],['2','متوسط'],['3','صعب']]],['pts','نقاط الإجابة الصحيحة','number',1,100],['bonus','مكافأة الإجابة السريعة (أقل من 5 ثوانٍ)','number',0,50],['vol','مستوى الصوت','number',0,100],['fx','المؤثرات الصوتية','bool'],['mode','طريقة الإجابة','sel',[['choice','اختيارات متعددة'],['voice','صوتية (المضيف يحكم)']]],['end','قاعدة النهاية','sel',[['points','الوصول لنقاط الفوز'],['last','آخر لاعب باقٍ']]],['target','نقاط الفوز','number',10,1000],['lives','عدد محاولات كل لاعب قبل الإقصاء','number',1,10],['rounds','عدد الأدوار الأقصى (0 = بلا حد)','number',0,200]];
+const SF=[['min','أقل وقت للانفجار (ثانية)','number',3,100],['max','أكثر وقت للانفجار (ثانية)','number',5,180],['vol','مستوى الصوت','number',0,100],['fx','المؤثرات الصوتية','bool'],['mode','طريقة الإجابة','sel',[['choice','اختيارات متعددة'],['voice','صوتية (المضيف يحكم)']]],['rounds','عدد الأدوار الأقصى (0 = بلا حد)','number',0,200]];
 function buildSet(){$('#setBody').innerHTML=SF.map(f=>{const k=f[0],v=st[k];let i;if(f[2]==='bool')i=`<select data-k="${k}"><option value="1" ${v?'selected':''}>مفعّل</option><option value="0" ${v?'':'selected'}>معطّل</option></select>`;else if(f[2]==='sel')i=`<select data-k="${k}">${f[3].map(o=>`<option value="${o[0]}" ${v===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select>`;else i=`<input type="number" data-k="${k}" min="${f[3]}" max="${f[4]}" value="${v}">`;return`<div class="row"><label>${f[1]}</label>${i}</div>`}).join('');$$('#setBody [data-k]').forEach(el=>el.onchange=()=>{const k=el.dataset.k,f=SF.find(x=>x[0]===k);let v=el.value;if(f[2]==='bool')v=v==='1';else if(f[2]==='number'){v=Math.min(f[4],Math.max(f[3],+v||f[3]));el.value=v}st[k]=v;if(k==='lives')syncLives();if(k==='target'||k==='end')st[k]=k==='target'?+st[k]:st[k];if(st.min>=st.max){st.max=st.min+5;buildSet()}sv('bm_set',st)})}
 function syncLives(){if(!G||G.over)return;const n=Math.max(1,+st.lives||1),o=G.lv||n,d=n-o;G.pl.forEach(p=>{if(!p.out)p.l=Math.max(1,(p.l==null?o:p.l)+d)});G.lv=n;sv('bm_game',G)}
 $('#bReset').onclick=()=>{st=Object.assign({},DEF);sv('bm_set',st);syncLives();buildSet()};
@@ -236,11 +333,14 @@ function parseCustom(){return customQ.split('\n').map(l=>l.split('|').map(x=>x.t
 function pool(k){return k==='custom'?parseCustom():C[k].q}
 $('#bToPl').onclick=()=>{if(cats.includes('custom')&&!parseCustom().length){$('#customErr').textContent='أضف سؤالًا واحدًا على الأقل بصيغة: السؤال|الإجابة';return}$('#customErr').textContent='';buildPl();show('plr')};
 /* players */
-function buildPl(){$('#qTarget').value=st.target;$('#qLives').value=Math.max(1,+st.lives||1);$('#qLvl').value=st.lvl;$('#pList').innerHTML=players.map((p,i)=>`<div class="pl"><b>${i+1}. ${esc(p)}</b><button class="btn sm" data-e="${i}">✎</button><button class="btn sm" data-d="${i}">🗑</button></div>`).join('')||'<p style="color:var(--mut)">لا يوجد لاعبون</p>';$$('[data-d]').forEach(b=>b.onclick=()=>{players.splice(+b.dataset.d,1);sv('bm_pl',players);buildPl()});$$('[data-e]').forEach(b=>b.onclick=()=>{const i=+b.dataset.e,row=b.parentElement;row.innerHTML=`<input value="${esc(players[i])}" maxlength="20" id="ei"><button class="btn gold sm" id="es">حفظ</button>`;const sa=()=>{const n=$('#ei').value.trim();if(!n){$('#pErr').textContent='الاسم فارغ';return}if(players.some((p,j)=>j!==i&&p.toLowerCase()===n.toLowerCase())){$('#pErr').textContent='الاسم مكرر';return}$('#pErr').textContent='';players[i]=n;sv('bm_pl',players);buildPl()};$('#es').onclick=sa;$('#ei').onkeydown=e=>{if(e.key==='Enter')sa()};$('#ei').focus()})}
+function buildPl(){$('#qEnd').value=st.end;$('#rTarget').style.display=st.end==='points'?'':'none';$('#qPts').value=st.pts;$('#qBonus').value=st.bonus;$('#qTarget').value=st.target;$('#qLives').value=Math.max(1,+st.lives||1);$('#qLvl').value=st.lvl;$('#pList').innerHTML=players.map((p,i)=>`<div class="pl"><b>${i+1}. ${esc(p)}</b><button class="btn sm" data-e="${i}">✎</button><button class="btn sm" data-d="${i}">🗑</button></div>`).join('')||'<p style="color:var(--mut)">لا يوجد لاعبون</p>';$$('[data-d]').forEach(b=>b.onclick=()=>{players.splice(+b.dataset.d,1);sv('bm_pl',players);buildPl()});$$('[data-e]').forEach(b=>b.onclick=()=>{const i=+b.dataset.e,row=b.parentElement;row.innerHTML=`<input value="${esc(players[i])}" maxlength="20" id="ei"><button class="btn gold sm" id="es">حفظ</button>`;const sa=()=>{const n=$('#ei').value.trim();if(!n){$('#pErr').textContent='الاسم فارغ';return}if(players.some((p,j)=>j!==i&&p.toLowerCase()===n.toLowerCase())){$('#pErr').textContent='الاسم مكرر';return}$('#pErr').textContent='';players[i]=n;sv('bm_pl',players);buildPl()};$('#es').onclick=sa;$('#ei').onkeydown=e=>{if(e.key==='Enter')sa()};$('#ei').focus()})}
 function addP(){const n=$('#pin').value.trim();if(!n){$('#pErr').textContent='اكتب اسمًا أولًا';return}if(players.some(p=>p.toLowerCase()===n.toLowerCase())){$('#pErr').textContent='الاسم مكرر';return}if(players.length>=20){$('#pErr').textContent='الحد الأقصى 20 لاعبًا';return}$('#pErr').textContent='';players.push(n);sv('bm_pl',players);$('#pin').value='';buildPl();$('#pin').focus()}
 $('#pAdd').onclick=addP;$('#pin').onkeydown=e=>{if(e.key==='Enter')addP()};
+$('#qEnd').onchange=e=>{st.end=e.target.value;$('#rTarget').style.display=st.end==='points'?'':'none';sv('bm_set',st)};
+$('#qPts').onchange=e=>{st.pts=Math.min(100,Math.max(1,Math.round(+e.target.value)||1));e.target.value=st.pts;sv('bm_set',st)};
+$('#qBonus').onchange=e=>{st.bonus=Math.min(50,Math.max(0,Math.round(+e.target.value)||0));e.target.value=st.bonus;sv('bm_set',st)};
 $('#qLives').onchange=e=>{st.lives=Math.min(10,Math.max(1,Math.round(+e.target.value)||1));e.target.value=st.lives;sv('bm_set',st)};
-$('#qLvl').onchange=e=>{st.lvl=e.target.value;sv('bm_set',st)};$('#qTarget').onchange=e=>{st.target=Math.max(10,+e.target.value||50);e.target.value=st.target;sv('bm_set',st)};
+$('#qLvl').onchange=e=>{st.lvl=e.target.value;sv('bm_set',st)};$('#qTarget').onchange=e=>{st.target=Math.min(1000,Math.max(10,+e.target.value||50));e.target.value=st.target;sv('bm_set',st)};
 $('#bGo').onclick=()=>{if(players.length<2){$('#pErr').textContent='يلزم لاعبان على الأقل';return}newGame();show('game')};
 /* game */
 function newGame(){clearTimeout(nt);const L0=Math.max(1,+st.lives||1);G={lv:L0,pl:shuf(players).map(n=>({n,s:0,out:0,l:L0})),last:-1,cur:-1,used:[],turns:0,elim:[],locked:false,cats:[...cats],qc:cats[0],over:false,q:null,opts:null,wrong:[],fuse:0,el:0};sv('bm_game',G);turn()}
@@ -260,7 +360,7 @@ function draw(){const p=G.pl[G.cur],q=G.q;$('#gInfo').textContent=`الدور ${
 function topBoard(){const s=G.pl.map((p,i)=>({...p,i})).sort((a,b)=>b.s-a.s||a.out-b.out);$('#topL').innerHTML=s.map((p,r)=>`<div class="tr ${r<3?'r'+(r+1):''} ${p.out?'out':''} ${!G.locked&&G.cur===p.i&&!p.out?'cur':''}"><span>${['🥇','🥈','🥉'][r]||r+1}</span><div class="n">${esc(p.n)}<small>${p.out?'مقصى':'مستمر'}${(G.lv||st.lives)>1&&!p.out?' • '+'❤'.repeat(Math.max(0,p.l==null?1:p.l))+'🖤'.repeat(Math.max(0,(G.lv||st.lives)-(p.l==null?1:p.l))):''}</small></div><span class="p">${p.s}</span>${adj?`<button class="btn sm" data-a="${p.i}" data-s="-1" aria-label="إنقاص">−</button><button class="btn sm" data-a="${p.i}" data-s="1" aria-label="زيادة">+</button>`:''}</div>`).join('');$('#adjBar').hidden=!adj;$('#bAdj').textContent=adj?'✔ تم':'± تعديل النقاط';$$('[data-a]').forEach(b=>b.onclick=()=>{const i=+b.dataset.a,d=+b.dataset.s*Math.max(1,+$('#adjStep').value||1);G.pl[i].s=Math.max(0,G.pl[i].s+d);sv('bm_game',G);topBoard();if(hitTarget()){adj=false;finish()}})}
 $('#bAdj').onclick=()=>{if(!G||G.over)return;adj=!adj;topBoard()};
 function toast(t,c){const e=$('#ts');if(e){e.textContent=t;e.className='toast '+c}}
-function answer(ok,idx){if(G.locked||G.over||G.paused)return;if(!ok){if(st.end==='last'){explode('wrong');return}tone(180,.3,'sawtooth');G.tried=G.tried||[];if(!G.tried.includes(G.cur))G.tried.push(G.cur);const al=G.pl.map((x,i)=>i).filter(i=>!G.pl[i].out);let c=al.filter(i=>!G.tried.includes(i));if(!c.length){G.tried=[G.cur];c=al.filter(i=>i!==G.cur)}if(c.length){G.cur=pick(c);G.last=G.cur;G.fuse=rnd(st.min,st.max);G.el=0}G.wrong=[];draw();toast(c.length?`❌ إجابة خاطئة! الدور على ${G.pl[G.cur].n}`:'❌ إجابة خاطئة','no');if(c.length)run();sv('bm_game',G);return}
+function answer(ok,idx){if(G.locked||G.over||G.paused)return;if(!ok){if(st.end==='last'||G.elim.length>0){explode('wrong');return}tone(180,.3,'sawtooth');G.tried=G.tried||[];if(!G.tried.includes(G.cur))G.tried.push(G.cur);const al=G.pl.map((x,i)=>i).filter(i=>!G.pl[i].out);let c=al.filter(i=>!G.tried.includes(i));if(!c.length){G.tried=[G.cur];c=al.filter(i=>i!==G.cur)}if(c.length){G.cur=pick(c);G.last=G.cur;G.fuse=rnd(st.min,st.max);G.el=0}G.wrong=[];draw();toast(c.length?`❌ إجابة خاطئة! الدور على ${G.pl[G.cur].n}`:'❌ إجابة خاطئة','no');if(c.length)run();sv('bm_game',G);return}
 G.locked=true;clearInterval(tm);$('#bw').classList.remove('pulse');const fast=G.el<5&&st.bonus>0,gain=st.pts+(fast?st.bonus:0);G.pl[G.cur].s+=gain;tone(660,.15);setTimeout(()=>tone(990,.25),140);toast(`✅ +${gain} نقطة${fast?' (مكافأة سرعة ⚡)':''}`,'ok');if(G.opts){$$('[data-o]').forEach(b=>{if(G.opts[+b.dataset.o]===G.q[1])b.classList.add('good');b.disabled=true})}topBoard();sv('bm_game',G);if(hitTarget())toast(`🏆 ${G.pl[G.cur].n} وصل إلى نقاط الفوز! +${gain}`,'ok');nt=setTimeout(()=>turn(),hitTarget()?1300:1700)}
 function explode(why){if(G.locked)return;G.locked=true;clearInterval(tm);const p=G.pl[G.cur];p.l=(p.l==null?(G.lv||1):p.l)-1;const dead=p.l<=0;if(dead){p.out=G.elim.length+1;G.elim.push(G.cur)}boomS();const fx=$('#fx');fx.classList.remove('boom');void fx.offsetWidth;if(st.fx!==false)fx.classList.add('boom');const bw=$('#bw');bw.classList.remove('pulse');bw.classList.add('shake');setTimeout(()=>bw.classList.remove('shake'),1000);toast(dead?(why==='wrong'?`❌ إجابة خاطئة! أُقصي ${p.n}`:`💥 انفجرت! أُقصي ${p.n}`):(why==='wrong'?`❌ إجابة خاطئة! خسر ${p.n} محاولة وبقي له ${p.l}`:`💥 انفجرت على ${p.n}! بقي له ${p.l} من المحاولات`),'no');$('#tl').textContent='💥';$$('[data-o],#vOk,#vNo').forEach(b=>b.disabled=true);topBoard();sv('bm_game',G);nt=setTimeout(()=>turn(),2600)}
 let qc=null;$('#bQuit').onclick=function(){if(!G||G.over)return;if(!qc){this.textContent='⚠ اضغط مرة أخرى للتأكيد';qc=setTimeout(()=>{qc=null;this.textContent='✖ إنهاء'},3000);return}clearTimeout(qc);qc=null;this.textContent='✖ إنهاء';finish()};
